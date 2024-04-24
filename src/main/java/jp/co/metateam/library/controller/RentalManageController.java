@@ -22,7 +22,6 @@ import jp.co.metateam.library.service.AccountService;
 import jp.co.metateam.library.service.RentalManageService;
 import jp.co.metateam.library.service.StockService;
 import jp.co.metateam.library.values.RentalStatus;
-import jp.co.metateam.library.values.StockStatus;
 import lombok.extern.log4j.Log4j2;
 import jp.co.metateam.library.model.RentalManage;
 /**
@@ -67,13 +66,22 @@ public class RentalManageController {
     public String add(Model model) {
         List<Account> accountList = this.accountService.findAll();
         List<Stock> stockList = this.stockService.findAll();
-        
+
+        model.addAttribute("rentalManageList", rentalManageList);
         model.addAttribute("rentalStatus", RentalStatus.values());
         model.addAttribute("accounts", accountList);
         model.addAttribute("stockList", stockList);
 
         if (!model.containsAttribute("rentalManageDto")) {
             model.addAttribute("rentalManageDto", new RentalManageDto());
+        }
+
+        if (!model.containsAttribute("accountDto")) {
+            model.addAttribute("accountDto", new AccountDto());
+        }
+
+        if (!model.containsAttribute("stockDto")) {
+            model.addAttribute("stockDto", new StockDto());
         }
 
         return "rental/add";
